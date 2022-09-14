@@ -1,0 +1,73 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>vortex :: launcher</title>
+        <link type="image/x-icon" rel="shortcut icon" href="favicon/favicon.ico">
+        <link type="image/png" sizes="16x16" rel="icon" href="favicon/favicon16.png">
+        <link type="image/png" sizes="32x32" rel="icon" href="favicon/favicon32.png">
+        <link type="image/png" sizes="96x96" rel="icon" href="favicon/favicon96.png">
+        <link type="image/png" sizes="120x120" rel="icon" href="favicon/favicon120.png">
+        <link rel="stylesheet" type="text/css" href="css/main.css">
+        <link rel="stylesheet" type="text/css" href="css/loading.css">
+        <link rel="icon" type="image/svg+xml" href="favicon.svg">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700&display=swap" rel="stylesheet">
+        <script src="https://kit.fontawesome.com/f42d104236.js" crossorigin="anonymous"></script>
+        <script>window.$ = window.jQuery = require('./js/jquery.js');</script>
+        <script src="js/universalFunctions.js" type="text/javascript"></script>
+    </head>
+ <body>
+    <div class="topnav">
+        <div class="topnav_close" id="CloseApp" onclick="CloseApp()"><img src="./css/images/xmark.svg" alt="X"></div>
+        <div class="topnav_wrap" id="MinApp" onclick="MinApp()"><img src="./css/images/angle-down.svg" alt="_"></div>
+    </div>
+    <div class="maincontent" id="mainWindow">
+        <div class="main-container-backdrop"></div>
+        <div class="backdrop" id="backdrop"></div>
+        <div class="dots-container">
+            <div class="dot1"></div>
+            <div class="dot2"></div>
+            <div class="dot3"></div>
+        </div>
+    </div>
+    <div class="settings" id="settings" style="display: none; margin-top: 40px; width: 100%;">
+        <div class="slidecontainer">
+            <div class="ramValue settingsTitle" id="ramValue">512mb</div>
+            <input type="range" min="512" max="16384" value="1" class="slider" id="ramRange">
+            <div class="settingsTitle">оперативная память</div>
+        </div>
+        <div class="settingsTitle settingsBar settingsButton" style="margin-top: 16px;" onclick="OpenResources()">открыть папку resourcepacks</div>
+        <div class="settingsTitle settingsBar settingsButton" style="color: #ab2d2d;" onclick="LogOut()">выйти из аккаунта</div>
+    </div>
+    <div class="settings" id="servers" style="display: none; margin-top: 40px; width: 100%;">
+        <div id="ageplanet" class="settingsTitle settingsBar settingsButton" style="margin-top: 16px;">🌍 Age Planet · 1.18.2</div>
+        <div id="vortex" class="settingsTitle settingsBar settingsButton" style="margin-top: 16px;">🧊 Vortex · 1.18.2</div>
+    </div>
+    <div class="bottomnav">
+        <div class="bottom_text" style="float: left;">
+            <div onclick="Settings()" class="bottom-buttons" id="sett">
+                <i class="fa-solid fa-sliders"></i>
+                <span style="margin-left: 7px;">Настройки</span>
+            </div>
+        </div>
+        <div class="bottom_text" style="float: right;">
+            <div onclick="Servers()" class="bottom-buttons" id="serr">
+                <i class="fa-solid fa-server"></i>
+                <span style="margin-left: 7px;">Сервера</span>
+            </div>
+        </div>
+        <div class="bottom_text" style="float: right;" id="nickname"></div>
+        <div class="progress-bar">
+            <span class="bar">
+            <span class="progress" id="percentage"></span>
+            </span>
+        </div>
+    </div>
+    <div class="bottom_button" onclick="LaunchMinecraft()" id="play">
+        <i class="fa-solid fa-gamepad"></i>
+        <span style="margin-left: 7px;">Играть</span>
+    </div>
+</body>
+</html>

@@ -1,0 +1,21 @@
+{
+  "name": "vortex-launcher",
+  "version": "1.0.0",
+  "description": "launcher for vortex",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-packager ./ \"vortex\" --platform=win32 --arch=x64 --asar=true --overwrite --prune=true --out=build --icon=C:\\Users\\Антон\\Desktop\\icon1024.ico"
+  },
+  "author": "vard005",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^20.0.1"
+  },
+  "dependencies": {
+    "electron-packager": "^15.5.1",
+    "minecraft-launcher-core": "^3.16.12",
+    "open": "^8.4.0",
+    "protocol-registry": "^1.3.15"
+  }
+}
