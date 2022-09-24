@@ -123,24 +123,6 @@ async function LaunchMinecraft(args) {
     }
 }
 
-async function pfu(percents) {
-    console.log('downloading minecraft | '+percents)
-    mainWindow.webContents.send('percentUpdate', percents)
-}
-
-async function pfe() {
-    console.log('pizdec')
-    //fade percentage to 0
-    //display error message
-}
-
-async function pff() {
-    console.log('downloaded minecraft succesfully')
-    //checksum
-    //fade percentage to 0
-    //reload mainWindow
-}
-
 function Reload() {
     mainWindow.reload();
 }
@@ -208,4 +190,22 @@ function download(url, path, percentFuncUpdate, percentFuncError, percentFuncFin
         fs.unlink(path)
         percentFuncError()
     });
+}
+
+async function pfu(percents) {
+    console.log('downloading minecraft | '+percents)
+    mainWindow.webContents.send('percentUpdate', percents)
+}
+
+async function pfe() {
+    console.log('pizdec')
+    //fade percentage to 0
+    //display error message
+}
+
+async function pff() {
+    console.log('downloaded minecraft succesfully')
+    //checksum
+    //fade percentage to 0
+    //reload mainWindow
 }
