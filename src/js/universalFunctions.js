@@ -12,35 +12,35 @@ ipcRenderer.on('percentUpdate', function (evt, message) {
 
 init()
 
-async function init(){
+async function init() {
     await GetToken()
     //await getNickname()
     await loadSettings()
 }
 
-async function loadSettings(){
+async function loadSettings() {
     var settings = await GetSettings()
     currentRAM = settings.ram
 }
 
 async function getNickname() {
-    if (token != 'null'){
+    if (token != 'null') {
         await $.ajax({
-            type : "POST",
-            url  : "https://vortex-mc.site/lapi/getNickname.php",
-            data : { access_token : token },
-            success: function(res){
+            type: "POST",
+            url: "https://vortex-mc.site/lapi/getNickname.php",
+            data: { access_token: token },
+            success: function (res) {
                 document.getElementById("nickname").innerHTML = res
             }
         })
     }
 }
 
-async function saveData(){
+async function saveData() {
     var settingsPATH = await GetSettingsPATH()
     var settingsJSON = new Object()
     settingsJSON.ram = currentRAM
-    var jsonString= JSON.stringify(settingsJSON)
+    var jsonString = JSON.stringify(settingsJSON)
     fs.writeFileSync(settingsPATH, jsonString)
 }
 
@@ -49,7 +49,7 @@ var serversState = false;
 
 async function Settings() {
     var button = document.getElementById('sett')
-    if (!settingsState){
+    if (!settingsState) {
         document.getElementById("servers").style.display = "none"
         document.getElementById('serr').classList.remove('sett-active')
         serversState = false;
@@ -61,7 +61,7 @@ async function Settings() {
         slider.value = currentRAM
         output.textContent = currentRAM + 'mb'
         slider.max = allram / 1048576
-        slider.oninput = function() {
+        slider.oninput = function () {
             currentRAM = this.value
             output.textContent = this.value + 'mb'
         }
@@ -82,15 +82,15 @@ function MainWindow() {
     document.getElementById("servers").style.display = "none"
 }
 
-async function Servers(){
+async function Servers() {
     var button = document.getElementById('serr')
-    if (!serversState){
+    if (!serversState) {
         document.getElementById("settings").style.display = "none"
         document.getElementById('sett').classList.remove('sett-active')
         settingsState = false;
         button.classList.toggle('sett-active')
         serversState = true
-        
+
         document.getElementById("backdrop").classList.add("darkenBG")
         document.getElementById("servers").style.display = "block"
     }
@@ -108,16 +108,16 @@ async function LogOut() {
 async function GetSettings() {
     var settingsPATH = await GetSettingsPATH()
     try {
-      if (fs.existsSync(settingsPATH)) {
-        let settings = JSON.parse(fs.readFileSync(settingsPATH, "utf8"))
-        return settings
-      }
-      else {
-        return {ram: 512}
-      }
-    } catch(err) {
-      console.error(err)
-      return {ram: 512}
+        if (fs.existsSync(settingsPATH)) {
+            let settings = JSON.parse(fs.readFileSync(settingsPATH, "utf8"))
+            return settings
+        }
+        else {
+            return { ram: 512 }
+        }
+    } catch (err) {
+        console.error(err)
+        return { ram: 512 }
     }
 }
 
@@ -148,7 +148,7 @@ function openBrowser(url) {
 }
 
 async function LaunchMinecraft() {
-    if (token != 'null'){
+    if (token != 'null') {
         await saveData()
         ipcRenderer.send('LaunchClick', currentRAM)
     }

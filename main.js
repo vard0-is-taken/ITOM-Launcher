@@ -18,57 +18,57 @@ var MCCurrentVersionUrl = 'https://vortex-mc.site/downloads/vortex.zip'
 var authPath = path.join(app.getPath("appData"), "vortex-launcher\\Auth.json");
 var token = '00140bdcd0289272aeed6a5b03611d1125a83cf4b0b0d4bc1c95baa4a1708c74'
 try {
-var authJsonData = fs.readFileSync(authPath, "utf8")
-token = JSON.parse(authJsonData).token
+    var authJsonData = fs.readFileSync(authPath, "utf8")
+    token = JSON.parse(authJsonData).token
 }
-catch{}
+catch { }
 
-try{token = process.argv.find((arg) => arg.startsWith('vortex-launcher://')).replace('vortex-launcher://', '').replace('/', '');}
-catch{}
-if (token != 'null'){
+try { token = process.argv.find((arg) => arg.startsWith('vortex-launcher://')).replace('vortex-launcher://', '').replace('/', ''); }
+catch { }
+if (token != 'null') {
     writeToken(token)
 }
 
 const gotTheLock = app.requestSingleInstanceLock();
 
 if (!gotTheLock) {
-  app.quit();
+    app.quit();
 }
 else {
-  app.on('second-instance', (e, argv) => {
-    if (process.platform !== 'darwin') {
-        try{token = argv.find((arg) => arg.startsWith('vortex-launcher://')).replace('vortex-launcher://', '').replace('/', '');}
-        catch{}
-        if (token != 'null'){
-            writeToken(token)
+    app.on('second-instance', (e, argv) => {
+        if (process.platform !== 'darwin') {
+            try { token = argv.find((arg) => arg.startsWith('vortex-launcher://')).replace('vortex-launcher://', '').replace('/', ''); }
+            catch { }
+            if (token != 'null') {
+                writeToken(token)
+            }
         }
-    }
 
-    if (mainWindow) {
-      if (mainWindow.isMinimized()) mainWindow.restore();
-      mainWindow.focus();
-      mainWindow.reload();
-    }
-  });
+        if (mainWindow) {
+            if (mainWindow.isMinimized()) mainWindow.restore();
+            mainWindow.focus();
+            mainWindow.reload();
+        }
+    });
 }
 
 function writeToken(token) {
     var tokenJson = {
         token: token
     }
-    fs.writeFile(authPath, JSON.stringify(tokenJson), function(err, result) {
-        if(err) console.log('error', err);
+    fs.writeFile(authPath, JSON.stringify(tokenJson), function (err, result) {
+        if (err) console.log('error', err);
     });
 }
 
 ipcMain.handle('getDeviceRam', async (event, ...args) => {
-            const result = os.totalmem();
-            return result
-        })
+    const result = os.totalmem();
+    return result
+})
 ipcMain.handle('getRoaming', async (event, ...args) => {
-            const result = app.getPath("appData");
-            return result
-        })
+    const result = app.getPath("appData");
+    return result
+})
 ipcMain.handle('getToken', async (event, ...args) => {
     return token
 })
@@ -117,9 +117,9 @@ app.on('ready', function () {
 
 async function LaunchMinecraft(args) {
     if (!fs.existsSync(minecraftPath)) {
-        console.log('download task was executed, starting download from '+MCCurrentVersionUrl+', to '+minecraftPath+'/minecraft.zip')
+        console.log('download task was executed, starting download from ' + MCCurrentVersionUrl + ', to ' + minecraftPath + '/minecraft.zip')
         fs.mkdirSync(minecraftPath)
-        download(MCCurrentVersionUrl, minecraftPath+'/minecraft.zip', pfu, pfe, pff)
+        download(MCCurrentVersionUrl, minecraftPath + '/minecraft.zip', pfu, pfe, pff)
     }
 }
 
@@ -157,29 +157,29 @@ function download(url, path, percentFuncUpdate, percentFuncError, percentFuncFin
     var receivedBytes = 0
     var totalBytes = 0
     var lastSended = -1
-    
+
     request.get(url)
-    .on('response', (response) => {
-        if (response.statusCode == 200) {
-            totalBytes = response.headers['content-length']
-        }
-        else{
-            return
-        }
-    })
-    .on('data', (chunk) => {
-        receivedBytes += chunk.length
-        var perc = (receivedBytes/totalBytes*100).toFixed(1)
-        if (perc!=lastSended){
-            percentFuncUpdate(perc)
-            lastSended = perc
-        }
-    })
-    .pipe(file)
-    .on('error', (err) => {
-        fs.unlink(path)
-        percentFuncError()
-    });
+        .on('response', (response) => {
+            if (response.statusCode == 200) {
+                totalBytes = response.headers['content-length']
+            }
+            else {
+                return
+            }
+        })
+        .on('data', (chunk) => {
+            receivedBytes += chunk.length
+            var perc = (receivedBytes / totalBytes * 100).toFixed(1)
+            if (perc != lastSended) {
+                percentFuncUpdate(perc)
+                lastSended = perc
+            }
+        })
+        .pipe(file)
+        .on('error', (err) => {
+            fs.unlink(path)
+            percentFuncError()
+        });
 
     file.on('finish', () => {
         file.close()
@@ -193,7 +193,7 @@ function download(url, path, percentFuncUpdate, percentFuncError, percentFuncFin
 }
 
 async function pfu(percents) {
-    console.log('downloading minecraft | '+percents)
+    console.log('downloading minecraft | ' + percents)
     mainWindow.webContents.send('percentUpdate', percents)
 }
 

@@ -1,11 +1,12 @@
 body {
-  margin: 0px;
+  margin: 0;
   user-select: none;
   background-color: #131316;
-  height: 100%;
+  height: 100%
 }
-textarea:focus, input:focus{
-  outline: none;
+input:focus,
+textarea:focus {
+  outline: 0
 }
 .topnav_close {
   z-index: 1000;
@@ -15,12 +16,12 @@ textarea:focus, input:focus{
   padding-right: 19px;
   padding-left: 18px;
   padding-top: 2px;
-  transition: background-color 150ms;
+  transition: background-color 150ms
 }
-    .topnav_close:hover {
-        backdrop-filter: blur(4px);
-        background-color: #ff414179;
-    }
+.topnav_close:hover {
+  backdrop-filter: blur(4px);
+  background-color: #ff414179
+}
 .topnav_wrap {
   z-index: 1000;
   -webkit-app-region: none;
@@ -29,15 +30,15 @@ textarea:focus, input:focus{
   padding-right: 16px;
   padding-left: 16px;
   padding-top: 2px;
-  transition: background-color 150ms;
+  transition: background-color 150ms
 }
-    .topnav_wrap:hover {
-        backdrop-filter: blur(4px);
-        background-color: #30303875;
-    }
+.topnav_wrap:hover {
+  backdrop-filter: blur(4px);
+  background-color: #30303875
+}
 img {
-  color: white;
-  height: 21px;
+  color: #fff;
+  height: 21px
 }
 .topnav {
   z-index: 1100;
@@ -49,23 +50,23 @@ img {
   top: 0;
   left: 0;
   width: 100%;
-  height: 25px;
+  height: 25px
 }
 .bottomnav {
   z-index: 1000;
   backdrop-filter: blur(4px);
   background-color: #13131675;
   position: fixed;
-  bottom: 0px;
+  bottom: 0;
   left: 0;
   width: 100%;
-  height: 74px;
+  height: 74px
 }
 .bottom_text {
   padding: 12px 28px;
   font-family: Nunito;
-  color: white;
-  font-size: 1.6em;
+  color: #fff;
+  font-size: 1.6em
 }
 .bottom-buttons {
   z-index: 1000;
@@ -75,19 +76,19 @@ img {
   padding: 9px 20px;
   margin-top: 4px;
   cursor: pointer;
-  transition: 150ms;
+  transition: 150ms
 }
 .bottom-buttons:hover {
   background-color: #24292c75;
-  backdrop-filter: blur(50px);
+  backdrop-filter: blur(50px)
 }
 .bottom-buttons:active {
   background-color: #1f232575;
-  backdrop-filter: blur(50px);
+  backdrop-filter: blur(50px)
 }
 .sett-active {
   background-color: #1f232575;
-  backdrop-filter: blur(50px);
+  backdrop-filter: blur(50px)
 }
 .bottom_button {
   z-index: 1000;
@@ -95,7 +96,7 @@ img {
   align-items: center;
   justify-content: center;
   position: fixed;
-  bottom: 0px;
+  bottom: 0;
   width: 185px;
   height: 20px;
   margin: 14px auto;
@@ -104,46 +105,45 @@ img {
   text-align: center;
   padding: 12px 0;
   font-family: Nunito;
-  color: white;
+  color: #fff;
   font-weight: 700;
   font-size: 20px;
   background-color: #326cc4;
   border-radius: 9999px;
   cursor: pointer;
-  transition: background-color 150ms;
+  transition: background-color 150ms
 }
-  .bottom_button:hover {
-        background-color: #27569b;
-    }
-  .bottom_button:active {
-      background-color: #204883;
-  }
-
+.bottom_button:hover {
+  background-color: #27569b
+}
+.bottom_button:active {
+  background-color: #204883
+}
 iframe {
   height: 100%;
   width: 100%;
-  border:none;
-  }
+  border: none
+}
 .maincontent {
   z-index: -1;
   overflow: hidden;
   position: absolute;
-  top: 0px;
-  bottom: 0px;
+  top: 0;
+  bottom: 0;
   width: 100%;
-  color: white;
+  color: #fff;
   text-align: center;
   font-family: Nunito;
-  font-size: 4em;
+  font-size: 4em
 }
 .slidecontainer {
   padding-bottom: 6px;
   backdrop-filter: blur(50px);
   background-color: #2b313575;
-  border-radius: 9999px; 
+  border-radius: 9999px;
   margin: 0 auto;
   width: 95%;
-  height: 40px;
+  height: 40px
 }
 .slider {
   float: right;
@@ -152,81 +152,81 @@ iframe {
   margin-right: 40px;
   margin-top: 15px;
   height: 15px;
-  border-radius: 10px;  
+  border-radius: 10px;
   background: #d3d3d3;
-  outline: none;
-  opacity: 0.7;
-  -webkit-transition: .150s;
-  transition: opacity .150s;
+  outline: 0;
+  opacity: .7;
+  -webkit-transition: .15s;
+  transition: opacity .15s
 }
 .slider:hover {
-  opacity: 1;
+  opacity: 1
 }
 .slider::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
   width: 30px;
   height: 30px;
-  border-radius: 50%; 
+  border-radius: 50%;
   background: #326cc4;
-  cursor: pointer;
+  cursor: pointer
 }
 .ramValue {
   float: right;
   margin-right: 35px;
-  width: 130px;
+  width: 130px
 }
 .settingsTitle {
-  color: white;
+  color: #fff;
   font-family: Nunito;
   font-weight: 700;
   font-size: 1.2em;
   text-align: center;
   border-radius: 9999px;
-  padding: 10px 0px;
+  padding: 10px 0
 }
 .settingsBar {
   backdrop-filter: blur(50px);
   background-color: #212529c2;
   width: 95%;
   margin: 0 auto;
-  margin-top: 15px;
+  margin-top: 15px
 }
 .settingsButton {
   z-index: 1000;
   cursor: pointer;
-  transition: background-color 150ms;
+  transition: background-color 150ms
 }
-  .settingsButton:hover {
-    background-color: #2a3035a4;
-    backdrop-filter: blur(50px);
-  }
-  .settingsButton:active {
-    background-color: #30373da4;
-    backdrop-filter: blur(50px);
-  }
-  .progress-bar {
-    border-radius: 60px;
-    overflow: hidden;
-    width: 100%;
-  }
-  .progress-bar span {
-    display: block;
-  }
-  .progress {
-    transition:300ms linear;
-    background: #00b089;
-    color: #fff;
-    padding: 2px 0px;
-    width: 0%;
-  }
-  .progress-bar {
-    left: 50%;
-    max-width: 100%;
-    position: absolute;
-    bottom: -2px;
-    transform: translate3d(-50%, -50%, 0);
-  }
+.settingsButton:hover {
+  background-color: #2a3035a4;
+  backdrop-filter: blur(50px)
+}
+.settingsButton:active {
+  background-color: #30373da4;
+  backdrop-filter: blur(50px)
+}
+.progress-bar {
+  border-radius: 60px;
+  overflow: hidden;
+  width: 100%
+}
+.progress-bar span {
+  display: block
+}
+.progress {
+  transition: .3s linear;
+  background: #00b089;
+  color: #fff;
+  padding: 2px 0;
+  width: 0%
+}
+.progress-bar {
+  left: 50%;
+  max-width: 100%;
+  position: absolute;
+  bottom: -2px;
+  transform: translate3d(-50%,-50%,0)
+}
 .dot1 {
   position: absolute;
   height: 400px;
@@ -234,8 +234,7 @@ iframe {
   margin-left: -200px;
   background-color: #005983;
   border-radius: 50%;
-  animation: bgMove 20s ease-in-out -3s infinite alternate,
-  bgOpacity 8s ease-in-out -8s infinite alternate;
+  animation: bgMove 20s ease-in-out -3s infinite alternate,bgOpacity 8s ease-in-out -8s infinite alternate
 }
 .dot2 {
   position: absolute;
@@ -244,8 +243,7 @@ iframe {
   margin-left: -200px;
   background-color: #003686;
   border-radius: 50%;
-  animation: bgMove 20s ease-in-out -17s infinite alternate,
-  bgOpacity 8s ease-in-out 0s infinite alternate;
+  animation: bgMove 20s ease-in-out -17s infinite alternate,bgOpacity 8s ease-in-out 0s infinite alternate
 }
 .dot3 {
   position: absolute;
@@ -254,38 +252,37 @@ iframe {
   margin-left: -200px;
   background-color: #00795e;
   border-radius: 50%;
-  animation: bgMove 20s ease-in-out -14s infinite alternate,
-  bgOpacity 8s ease-in-out -4s infinite alternate;
+  animation: bgMove 20s ease-in-out -14s infinite alternate,bgOpacity 8s ease-in-out -4s infinite alternate
 }
 .dots-container {
   z-index: 100;
   position: absolute;
   top: 100px;
-  left: 50%;
+  left: 50%
 }
 @keyframes bgMove {
   0% {
-      transform: translate(-150px) scale(0.8);
+    transform: translate(-150px) scale(.8)
   }
   25% {
-      transform: translateY(150px) scale(1);
+    transform: translateY(150px) scale(1)
   }
   50% {
-      transform: translate(150px) scale(1.2);
+    transform: translate(150px) scale(1.2)
   }
   75% {
-      transform: translateY(-150px) scale(1);
+    transform: translateY(-150px) scale(1)
   }
   100% {
-      transform: translate(-150px) scale(0.8);
+    transform: translate(-150px) scale(.8)
   }
 }
 @keyframes bgOpacity {
   0% {
-      opacity: 0.2;
+    opacity: .2
   }
   100% {
-      opacity: 0.5;
+    opacity: .5
   }
 }
 .main-container-backdrop {
@@ -294,17 +291,17 @@ iframe {
   backdrop-filter: blur(65px);
   width: 100vw;
   height: 650px;
-  top: 0;
+  top: 0
 }
 .backdrop {
   position: absolute;
   z-index: 1001;
-  transition: all 500ms;
+  transition: all .5s;
   width: 100vw;
   height: 650px;
   top: 0;
-  backdrop-filter: brightness(100%);
+  backdrop-filter: brightness(100%)
 }
 .darkenBG {
-  backdrop-filter: brightness(70%);
+  backdrop-filter: brightness(70%)
 }
