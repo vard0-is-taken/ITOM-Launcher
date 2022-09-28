@@ -1,11 +1,11 @@
 {
-  "name": "vortex-launcher",
+  "name": "itom",
   "version": "1.0.0",
-  "description": "launcher for vortex",
+  "description": "launcher for itom",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "build": "electron-packager ./ \"vortex\" --platform=win32 --arch=x64 --asar=true --overwrite --prune=true --out=build --icon=C:\\Users\\Антон\\Desktop\\icon1024.ico"
+    "build": "electron-packager ./ \"itom\" --platform=win32 --arch=x64 --asar=true --overwrite --prune=true --out=build --icon=C:\\Users\\Антон\\Desktop\\icon1024.ico"
   },
   "author": "vard005",
   "license": "MIT",

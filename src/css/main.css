@@ -303,5 +303,19 @@ iframe {
   backdrop-filter: brightness(100%)
 }
 .darkenBG {
-  backdrop-filter: brightness(70%)
+  backdrop-filter: brightness(50%);
+}
+.current-server {
+  font-weight: 700;
+  font-size: 20px;
+  position:fixed;
+  z-index: 1000;
+  top: 34px;
+  right: 0px;
+  background-color: #27569b;
+  padding: 6px;
+  padding-right: 20px;
+  padding-left: 20px;
+  border-bottom-left-radius: 9999px;
+  border-top-left-radius: 9999px;
 }

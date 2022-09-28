@@ -12,18 +12,18 @@ const request = require('request')
 let mainWindow;
 let loginWindow;
 
-//app.setAsDefaultProtocolClient('vortex-launcher');
+//app.setAsDefaultProtocolClient('itom');
 var minecraftPath = './minecraft'
-var MCCurrentVersionUrl = 'https://vortex-mc.site/downloads/vortex.zip'
-var authPath = path.join(app.getPath("appData"), "vortex-launcher\\Auth.json");
-var token = '00140bdcd0289272aeed6a5b03611d1125a83cf4b0b0d4bc1c95baa4a1708c74'
+var MCCurrentVersionUrl = ''
+var authPath = path.join(app.getPath("appData"), "itom\\Auth.json");
+var token = ''
 try {
     var authJsonData = fs.readFileSync(authPath, "utf8")
     token = JSON.parse(authJsonData).token
 }
 catch { }
 
-try { token = process.argv.find((arg) => arg.startsWith('vortex-launcher://')).replace('vortex-launcher://', '').replace('/', ''); }
+try { token = process.argv.find((arg) => arg.startsWith('itom://')).replace('itom://', '').replace('/', ''); }
 catch { }
 if (token != 'null') {
     writeToken(token)
@@ -37,7 +37,7 @@ if (!gotTheLock) {
 else {
     app.on('second-instance', (e, argv) => {
         if (process.platform !== 'darwin') {
-            try { token = argv.find((arg) => arg.startsWith('vortex-launcher://')).replace('vortex-launcher://', '').replace('/', ''); }
+            try { token = argv.find((arg) => arg.startsWith('itom://')).replace('itom://', '').replace('/', ''); }
             catch { }
             if (token != 'null') {
                 writeToken(token)
