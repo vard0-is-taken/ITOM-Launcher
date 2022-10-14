@@ -1,86 +1,90 @@
-const electron = require('electron');
-const url = require('url');
-const path = require('path');
-const { Client, Authenticator } = require('minecraft-launcher-core');
-const launcher = new Client();
-const { app, BrowserWindow, ipcMain } = electron;
-const os = require('os');
-const fs = require('fs');
-const open = require('open');
+const electron = require('electron')
+const url = require('url')
+const path = require('path')
+const { Client, Authenticator } = require('minecraft-launcher-core')
+const launcher = new Client()
+const { app, BrowserWindow, ipcMain } = electron
+const os = require('os')
+const fs = require('fs')
+const open = require('open')
 const request = require('request')
+const ITOM = require('./itomApiUtil.js')
 
-let mainWindow;
-let loginWindow;
+let mainWindow
+let loginWindow
+let api
 
 //app.setAsDefaultProtocolClient('itom');
-var minecraftPath = './minecraft'
-var MCCurrentVersionUrl = ''
-var authPath = path.join(app.getPath("appData"), "itom\\Auth.json");
-var token = ''
+var selectedGame = 'vortex'
+var gamesFolder = './games/'
+var authPath = path.join(app.getPath('appData'), 'itom\\Auth.json')
+var token = null
+var isTokenLoaded = false
+
 try {
-    var authJsonData = fs.readFileSync(authPath, "utf8")
+    var authJsonData = fs.readFileSync(authPath, 'utf8')
     token = JSON.parse(authJsonData).token
-}
-catch { }
+    isTokenLoaded = true
+} catch {}
 
-try { token = process.argv.find((arg) => arg.startsWith('itom://')).replace('itom://', '').replace('/', ''); }
-catch { }
-if (token != 'null') {
-    writeToken(token)
-}
+try {
+    token = process.argv
+        .find((arg) => arg.startsWith('itom://'))
+        .replace('itom://', '')
+        .replace('/', '')
+    isTokenLoaded = true
+} catch {}
 
-const gotTheLock = app.requestSingleInstanceLock();
+api = new ITOM(token, authPath, 'https://itom.fun/api/v1', gamesFolder, rendererProgressBarUpdate, isTokenLoaded)
+
+const gotTheLock = app.requestSingleInstanceLock()
 
 if (!gotTheLock) {
-    app.quit();
-}
-else {
+    app.quit()
+} else {
     app.on('second-instance', (e, argv) => {
         if (process.platform !== 'darwin') {
-            try { token = argv.find((arg) => arg.startsWith('itom://')).replace('itom://', '').replace('/', ''); }
-            catch { }
+            try {
+                token = argv
+                    .find((arg) => arg.startsWith('itom://'))
+                    .replace('itom://', '')
+                    .replace('/', '')
+            } catch {}
             if (token != 'null') {
                 writeToken(token)
             }
         }
 
         if (mainWindow) {
-            if (mainWindow.isMinimized()) mainWindow.restore();
-            mainWindow.focus();
-            mainWindow.reload();
+            if (mainWindow.isMinimized()) mainWindow.restore()
+            mainWindow.focus()
+            mainWindow.reload()
         }
-    });
-}
-
-function writeToken(token) {
-    var tokenJson = {
-        token: token
-    }
-    fs.writeFile(authPath, JSON.stringify(tokenJson), function (err, result) {
-        if (err) console.log('error', err);
-    });
+    })
 }
 
 ipcMain.handle('getDeviceRam', async (event, ...args) => {
-    const result = os.totalmem();
+    const result = os.totalmem()
     return result
 })
 ipcMain.handle('getRoaming', async (event, ...args) => {
-    const result = app.getPath("appData");
+    const result = app.getPath('appData')
     return result
 })
 ipcMain.handle('getToken', async (event, ...args) => {
-    return token
+    return api.getToken()
 })
 
+//INITIALIZATION ENDED
+
 app.on('ready', function () {
-    ipcMain.on('CloseClick', () => CloseApp());
-    ipcMain.on('MinClick', () => MinApp());
-    ipcMain.on('OpenResources', () => OpenResources());
-    ipcMain.on('LogOut', () => LogOut());
-    ipcMain.on('Reload', () => Reload());
-    ipcMain.on('OpenBrowser', (event, arg) => open(arg));
-    ipcMain.on('LaunchClick', (event, arg) => LaunchMinecraft(arg));
+    ipcMain.on('CloseClick', () => CloseApp())
+    ipcMain.on('MinClick', () => MinApp())
+    ipcMain.on('OpenResources', () => OpenResources())
+    ipcMain.on('LogOut', () => LogOut())
+    ipcMain.on('Reload', () => Reload())
+    ipcMain.on('OpenBrowser', (event, arg) => open(arg))
+    ipcMain.on('LaunchClick', (event, arg) => LaunchMinecraft(arg))
 
     mainWindow = new BrowserWindow({
         width: 970,
@@ -98,114 +102,61 @@ app.on('ready', function () {
             webviewTag: true,
             nodeIntegration: true,
             experimentalFeatures: true,
-        }
-    });
+        },
+    })
 
-    mainWindow.loadURL(url.format({
-        pathname: path.join(__dirname, 'src/mainWindow.html'),
-        protocol: 'file:',
-        slashes: true
-    }));
+    mainWindow.loadURL(
+        url.format({
+            pathname: path.join(__dirname, 'src/mainWindow.html'),
+            protocol: 'file:',
+            slashes: true,
+        })
+    )
 
     mainWindow.webContents.on('did-finish-load', function () {
-        mainWindow.show();
-    });
+        mainWindow.show()
+    })
 
-    mainWindow.removeMenu();
-    //mainWindow.webContents.openDevTools();
-});
+    mainWindow.removeMenu()
+    mainWindow.webContents.openDevTools();
+})
 
 async function LaunchMinecraft(args) {
     if (!fs.existsSync(minecraftPath)) {
-        console.log('download task was executed, starting download from ' + MCCurrentVersionUrl + ', to ' + minecraftPath + '/minecraft.zip')
+        console.log('download task was executed')
         fs.mkdirSync(minecraftPath)
-        download(MCCurrentVersionUrl, minecraftPath + '/minecraft.zip', pfu, pfe, pff)
+        api.downloadGame('vortex')
     }
 }
 
 function Reload() {
-    mainWindow.reload();
+    mainWindow.reload()
 }
 
 function LogOut() {
     if (token != 'null') {
         fs.unlinkSync(authPath)
         token = 'null'
-        mainWindow.reload();
+        mainWindow.reload()
     }
 }
 
 function CloseApp() {
-    mainWindow.close();
+    mainWindow.close()
     try {
-        loginWindow.close();
-    }
-    catch { }
+        loginWindow.close()
+    } catch {}
 }
 
 function MinApp() {
-    mainWindow.minimize();
+    mainWindow.minimize()
 }
 
 function OpenResources() {
-    require('child_process').exec('start "" "minecraft\\resourcepacks"');
+    require('child_process').exec('start "" "minecraft\\resourcepacks"')
 }
 
-function download(url, path, percentFuncUpdate, percentFuncError, percentFuncFin) {
-
-    const file = fs.createWriteStream(path)
-    var receivedBytes = 0
-    var totalBytes = 0
-    var lastSended = -1
-
-    request.get(url)
-        .on('response', (response) => {
-            if (response.statusCode == 200) {
-                totalBytes = response.headers['content-length']
-            }
-            else {
-                return
-            }
-        })
-        .on('data', (chunk) => {
-            receivedBytes += chunk.length
-            var perc = (receivedBytes / totalBytes * 100).toFixed(1)
-            if (perc != lastSended) {
-                percentFuncUpdate(perc)
-                lastSended = perc
-            }
-        })
-        .pipe(file)
-        .on('error', (err) => {
-            fs.unlink(path)
-            percentFuncError()
-        });
-
-    file.on('finish', () => {
-        file.close()
-        percentFuncFin()
-    });
-
-    file.on('error', (err) => {
-        fs.unlink(path)
-        percentFuncError()
-    });
-}
-
-async function pfu(percents) {
+function rendererProgressBarUpdate(percents) {
     console.log('downloading minecraft | ' + percents)
     mainWindow.webContents.send('percentUpdate', percents)
-}
-
-async function pfe() {
-    console.log('pizdec')
-    //fade percentage to 0
-    //display error message
-}
-
-async function pff() {
-    console.log('downloaded minecraft succesfully')
-    //checksum
-    //fade percentage to 0
-    //reload mainWindow
 }
