@@ -1,3 +1,5 @@
+const fs = require('fs')
+const request = require('request')
 
 var ITOM = function ITOM(token, authFilePath, baseUrl, gamesFolderPath, progressBarFunc, isTokenLoaded) {
     this.token = token
@@ -5,13 +7,11 @@ var ITOM = function ITOM(token, authFilePath, baseUrl, gamesFolderPath, progress
     this.baseUrl = baseUrl
     this.gamesFolderPath = gamesFolderPath
     this.progressBarFunc = progressBarFunc
+    console.log(this.authFilePath)
     if (!isTokenLoaded) {
-        saveToken(this.token, this.authPath)
+        saveToken(this.token, this.authFilePath)
     }
 }
-
-// base api url = "https://itom.fun/api/v1"
-// games download url = "https://itom.fun/api/v1/gamesDL/[game]"
 
 ITOM.prototype.downloadGame = function (game)  {
     const file = fs.createWriteStream(this.gamesFolderPath + '/' + game)
@@ -81,19 +81,56 @@ ITOM.prototype.getNickname = function () {
     if (this.isLoggedIn()) {
         request.post({
             headers: {'content-type' : 'application/x-www-form-urlencoded'},
-            url:     'https://vortex-mc.site/lapi/getNickname.php',
-            body:    'access_token=' + this.token
+            url:     `${this.baseUrl}getNickname.php`,
+            body:    `access_token=${this.token}`
           }, function(error, response, body){
-            console.log(body);
+            console.log(body)
+          });
+    }
+}
+ITOM.prototype.setNickname = function (newNickname) {
+
+    //todo
+    //add discord message confirmation
+
+    if (this.isLoggedIn()) {
+        request.post({
+            headers: {'content-type' : 'application/x-www-form-urlencoded'},
+            url:     `${this.baseUrl}setNickname.php`,
+            body:    `name=${newNickname}&access_token=${this.token}`
+          }, function(error, response, body){
+            console.log(body)
+          });
+    }
+}
+ITOM.prototype.exitEveryDevice = function () {
+
+    //todo
+    //add discord message confirmation
+
+    console.log(this.authFilePath)
+    var path = this.authFilePath
+    if (this.isLoggedIn()) {
+        request.post({
+            headers: {'content-type' : 'application/x-www-form-urlencoded'},
+            url:     `${this.baseUrl}exitEveryDevice.php`,
+            body:    `access_token=${this.token}`
+          }, function(error, response, body){
+            console.log(body)
+            if (body != 'e88329'){
+                this.token = body
+                saveToken(body, path)
+            }
+            else {
+                //shut off the launcher
+            }
           });
     }
 }
 
-function saveToken(token = null, path = null) {
-    var tokenJson = {
-        token: token ? token : this.token
-    }
-    fs.writeFile(path ? path : this.authPath, JSON.stringify(tokenJson), function (err, result) {
+function saveToken (token, path) {
+    var tokenJson = { token: token }
+    fs.writeFile(path, JSON.stringify(tokenJson), function (err, result) {
         if (err) console.log('error', err)
     })
 }

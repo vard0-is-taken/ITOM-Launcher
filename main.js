@@ -1,3 +1,15 @@
+//todo
+//do backend api on server
+//do the final frontend look
+//do more settings
+//partialize mods and etc
+//do mods tab in ui
+//make minecraft launcherUtil
+//somehow send data from minecraft client to server
+//make server recognize data from clients and process it
+//do better OOP in frontend part
+
+
 const electron = require('electron')
 const url = require('url')
 const path = require('path')
@@ -18,7 +30,7 @@ let api
 var selectedGame = 'vortex'
 var gamesFolder = './games/'
 var authPath = path.join(app.getPath('appData'), 'itom\\Auth.json')
-var token = null
+var token = '50f919748fade5a0f92b983d5f056bf13cc468367c9f97821232ab5abaa685b9'
 var isTokenLoaded = false
 
 try {
@@ -35,7 +47,7 @@ try {
     isTokenLoaded = true
 } catch {}
 
-api = new ITOM(token, authPath, 'https://itom.fun/api/v1', gamesFolder, rendererProgressBarUpdate, isTokenLoaded)
+api = new ITOM(token, authPath, 'https://api.itom.fun/', gamesFolder, rendererProgressBarUpdate, isTokenLoaded)
 
 const gotTheLock = app.requestSingleInstanceLock()
 
@@ -84,7 +96,7 @@ app.on('ready', function () {
     ipcMain.on('LogOut', () => LogOut())
     ipcMain.on('Reload', () => Reload())
     ipcMain.on('OpenBrowser', (event, arg) => open(arg))
-    ipcMain.on('LaunchClick', (event, arg) => LaunchMinecraft(arg))
+    ipcMain.on('LaunchClick', (event, arg) => api.exitEveryDevice()) //LaunchMinecraft(arg)
 
     mainWindow = new BrowserWindow({
         width: 970,
